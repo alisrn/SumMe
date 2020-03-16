@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Animated, Button } from 'react-native';
+import { Text, View, TouchableOpacity, Button } from 'react-native';
 
 export default class Home extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      level:1
+    }
+  }
   render() {
     return (
       <View num={this.props.num}
@@ -18,9 +24,11 @@ export default class Home extends Component {
           }}
           onPress={this.onTalePress}  >
         <Text style={{ fontSize: 32 }} >Level</Text>
-        <Text style={{ fontSize: 40, color:'red' }} >1</Text>
+        <Text style={{ fontSize: 40, color:'red' }} >{this.state.level}</Text>
         <TouchableOpacity>
-          <Button title={"Play"} onPress={() => this.props.navigation.push('Game')}/>
+          <Button title={"Play"} onPress={() => this.props.navigation.push('Game',{
+            level: this.state.level,
+          })}/>
         </TouchableOpacity>
       </View>
     );

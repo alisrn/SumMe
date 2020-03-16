@@ -5,7 +5,9 @@ import TaleList from "./TaleList";
 const SumBoard = (props)=> {
   return(
     <View style={style.sumBoard} >
-      <TaleList taleNumList = {props.sumList} index={0}/>
+      <TaleList taleNumList = {props.sumList} index={0}
+        columnCount = {props.columnCount}
+      />
     </View>
   );
 }

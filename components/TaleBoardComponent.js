@@ -4,26 +4,45 @@ import TaleList from "./TaleList";
 import Header from "./Header";
 import SumBoard from "./SumBoard";
 
-
+const levels = [{
+  level: 1,
+  rowNum: 3,
+  colNum: 3,
+  total: 9
+},
+{
+  level: 2,
+  rowNum: 4,
+  colNum: 4,
+  total: 16
+}
+];
 export default class TaleBoardComponent extends Component {
   constructor(props) {
     super(props)
     this.state = {
       numList: [],
       sumList: [],
-      firstPressedIndex: null
-    }
+      firstPressedIndex: null,
+      configuredLevel: levels.find(x => x.level == this.props.route.params.level)
+    };
+    console.log(configuredLevel);
+    //console.log(props);
+    //console.log(this.props);
   }
 
   generateNum() {
+    let configuredLevel = this.state.configuredLevel;
+    console.log(configuredLevel);
+
     let defList = [];
     let forSumList = [];
-    for (let i = 0; i < 16; i++) {
+    for (let i = 0; i < configuredLevel.total; i++) {
       defList.push(Math.round(Math.random() * 10));
-      if (i < 4) {
+      if (i < configuredLevel.colNum) {
         forSumList.push(defList[i]);
       } else {
-        forSumList[i % 4] += defList[i];
+        forSumList[i % configuredLevel.colNum] += defList[i];
       }
     };
     console.log("forSumList", forSumList);
@@ -35,13 +54,14 @@ export default class TaleBoardComponent extends Component {
   };
 
   onTalePress(index) {
+    let configuredLevel = this.configuredLevel;
     let firstPressedIndex = this.state.firstPressedIndex;
     if (firstPressedIndex == undefined || firstPressedIndex == null) {
       this.setState({ firstPressedIndex: index });
     } else {
       let tempList = this.state.numList;
-      let firstIndex = firstPressedIndex[0] * 4 + firstPressedIndex[1];
-      let secondIndex = index[0] * 4 + index[1];
+      let firstIndex = firstPressedIndex[0] * configuredLevel.colNum + firstPressedIndex[1];
+      let secondIndex = index[0] * configuredLevel.colNum + index[1];
       let temp1 = tempList[firstIndex];
       tempList[firstIndex] = tempList[secondIndex];
       tempList[secondIndex] = temp1;
@@ -50,12 +70,13 @@ export default class TaleBoardComponent extends Component {
   }
 
   setNewListAndSumList(defList) {
+    let configuredLevel = this.configuredLevel;
     let forSumList = [];
-    for (let i = 0; i < 16; i++) {
-      if (i < 4) {
+    for (let i = 0; i < configuredLevel.total; i++) {
+      if (i < configuredLevel.colNum) {
         forSumList.push(defList[i]);
       } else {
-        forSumList[i % 4] += defList[i];
+        forSumList[i % configuredLevel.colNum] += defList[i];
       }
     }
     this.setState({
@@ -66,16 +87,34 @@ export default class TaleBoardComponent extends Component {
   }
 
   render() {
+    let configuredLevel = this.state.configuredLevel;
+    var foo = [];
+    for (let i = 0; i < configuredLevel.rowNum; i++) foo.push(i);
+    console.log(foo);
+    var taleListObj = foo.map((x, index) => {
+      console.log(index);
+      return (
+        <TaleList key={index}
+          index={index}
+          columnCount={configuredLevel.colNum}
+          taleNumList={this.state.numList}
+          onTalePress={this.onTalePress.bind(this)}
+          pressedIndex={this.state.firstPressedIndex}
+        />
+      )
+    })
+
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           <Header onPress={this.generateNum.bind(this)} />
         </View>
         <View style={styles.gamePlace} >
-          <TaleList key={0}
+          {taleListObj}
+          {/*           <TaleList key={0}
             index={0}
             taleNumList={this.state.numList}
-            onTalePress={this.onTalePress.bind(this)} 
+            onTalePress={this.onTalePress.bind(this)}
             pressedIndex={this.state.firstPressedIndex} />
           <TaleList key={1}
             index={1}
@@ -91,9 +130,11 @@ export default class TaleBoardComponent extends Component {
             index={3}
             taleNumList={this.state.numList}
             onTalePress={this.onTalePress.bind(this)}
-            pressedIndex={this.state.firstPressedIndex} />
+            pressedIndex={this.state.firstPressedIndex} /> */}
         </View>
-        <SumBoard sumList={this.state.sumList} />
+        <SumBoard sumList={this.state.sumList}
+          columnCount={configuredLevel.colNum}
+        />
       </View>
     );
   }
