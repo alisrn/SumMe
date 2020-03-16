@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'
-import TaleBoard from "./components/TaleBoard";
+import TaleBoardComponent from "./components/TaleBoardComponent";
 import Home from "./components/Home";
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -15,7 +15,7 @@ export default function App() {
     <NavigationContainer>
       <stack.Navigator>
         <stack.Screen name="Home" component={Home} />
-        <stack.Screen name="Game" component={TaleBoard} />
+        <stack.Screen name="Game" component={TaleBoardComponent} />
       </stack.Navigator>
     </NavigationContainer>
 
