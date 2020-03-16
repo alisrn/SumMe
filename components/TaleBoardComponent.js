@@ -26,14 +26,10 @@ export default class TaleBoardComponent extends Component {
       firstPressedIndex: null,
       configuredLevel: levels.find(x => x.level == this.props.route.params.level)
     };
-    console.log(configuredLevel);
-    //console.log(props);
-    //console.log(this.props);
   }
 
   generateNum() {
     let configuredLevel = this.state.configuredLevel;
-    console.log(configuredLevel);
 
     let defList = [];
     let forSumList = [];
@@ -45,8 +41,6 @@ export default class TaleBoardComponent extends Component {
         forSumList[i % configuredLevel.colNum] += defList[i];
       }
     };
-    console.log("forSumList", forSumList);
-    console.log("defList", defList);
     this.setState({
       numList: defList,
       sumList: forSumList
@@ -54,7 +48,7 @@ export default class TaleBoardComponent extends Component {
   };
 
   onTalePress(index) {
-    let configuredLevel = this.configuredLevel;
+    let configuredLevel = this.state.configuredLevel;
     let firstPressedIndex = this.state.firstPressedIndex;
     if (firstPressedIndex == undefined || firstPressedIndex == null) {
       this.setState({ firstPressedIndex: index });
@@ -70,7 +64,7 @@ export default class TaleBoardComponent extends Component {
   }
 
   setNewListAndSumList(defList) {
-    let configuredLevel = this.configuredLevel;
+    let configuredLevel = this.state.configuredLevel;
     let forSumList = [];
     for (let i = 0; i < configuredLevel.total; i++) {
       if (i < configuredLevel.colNum) {
@@ -90,9 +84,7 @@ export default class TaleBoardComponent extends Component {
     let configuredLevel = this.state.configuredLevel;
     var foo = [];
     for (let i = 0; i < configuredLevel.rowNum; i++) foo.push(i);
-    console.log(foo);
     var taleListObj = foo.map((x, index) => {
-      console.log(index);
       return (
         <TaleList key={index}
           index={index}
