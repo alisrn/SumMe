@@ -30,7 +30,7 @@ export default class TaleBoardComponent extends Component {
 
   generateNum() {
     let configuredLevel = this.state.configuredLevel;
-
+    let sum = 0;
     let defList = [];
     let forSumList = [];
     for (let i = 0; i < configuredLevel.total; i++) {
@@ -40,7 +40,13 @@ export default class TaleBoardComponent extends Component {
       } else {
         forSumList[i % configuredLevel.colNum] += defList[i];
       }
+      sum += defList[i];
     };
+    console.log(sum);
+    if (sum % configuredLevel.colNum != 0) {
+      this.generateNum();
+      return;
+    }
     this.setState({
       numList: defList,
       sumList: forSumList

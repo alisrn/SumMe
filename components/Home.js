@@ -5,7 +5,7 @@ export default class Home extends Component {
   constructor(props){
     super(props);
     this.state = {
-      level:1
+      level:2
     }
   }
   render() {

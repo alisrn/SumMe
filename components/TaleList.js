@@ -7,7 +7,8 @@ const TaleList = (props) => {
   for (let i = 0; i < props.columnCount; i++) foo.push(i);
   var taleObj = foo.map((x, index) => {
     return (
-      <Tale num={props.taleNumList[(props.columnCount * props.index) + index]}
+      <Tale key = {[props.index, index]}
+        num={props.taleNumList[(props.columnCount * props.index) + index]}
         index={[props.index, index]}
         onTalePress={props.onTalePress}
         pressed={props.pressedIndex ? props.pressedIndex[0] == props.index && props.pressedIndex[1] == index : false}
